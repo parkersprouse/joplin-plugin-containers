@@ -8,24 +8,30 @@
 
 /* eslint-disable no-console */
 
-const path = require('path');
-const crypto = require('crypto');
-const fs = require('fs-extra');
-const chalk = require('chalk');
-const CopyPlugin = require('copy-webpack-plugin');
-const tar = require('tar');
-const glob = require('glob');
-const execSync = require('child_process').execSync;
-const allPossibleCategories = require('@joplin/lib/pluginCategories.json');
+import { execSync } from 'node:child_process';
+import crypto from 'node:crypto';
+import { builtinModules } from 'node:module';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import CopyPlugin from 'copy-webpack-plugin';
+import allPossibleCategories from '@joplin/lib/pluginCategories.json' assert { type: 'json' };
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import * as glob from 'glob';
+import path from 'path';
+import * as tar from 'tar';
+import userConfigFile from './plugin.config.json' assert { type: 'json' };
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const rootDir = path.resolve(__dirname);
-const userConfigFilename = './plugin.config.json';
-const userConfigPath = path.resolve(rootDir, userConfigFilename);
+// const userConfigFilename = './plugin.config.json';
+// const userConfigPath = path.resolve(rootDir, userConfigFilename);
 const distDir = path.resolve(rootDir, 'dist');
 const srcDir = path.resolve(rootDir, 'src');
 const publishDir = path.resolve(rootDir, 'publish');
 
-const userConfig = { extraScripts: [], ...(fs.pathExistsSync(userConfigPath) ? require(userConfigFilename) : {}) };
+const userConfig = { extraScripts: [], ...userConfigFile }; // (fs.pathExistsSync(userConfigPath) ? await import(userConfigFilename) : {})
 
 const manifestPath = `${srcDir}/manifest.json`;
 const packageJsonPath = `${rootDir}/package.json`;
@@ -33,8 +39,6 @@ const allPossibleScreenshotsType = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 const manifest = readManifest(manifestPath);
 const pluginArchiveFilePath = path.resolve(publishDir, `${manifest.id}.jpl`);
 const pluginInfoFilePath = path.resolve(publishDir, `${manifest.id}.json`);
-
-const { builtinModules } = require('node:module');
 
 // Webpack5 doesn't polyfill by default and displays a warning when attempting to require() built-in
 // node modules. Set these to false to prevent Webpack from warning about not polyfilling these modules.
@@ -347,7 +351,7 @@ function main(environ) {
 }
 
 
-module.exports = (env) => {
+export default (env) => {
 	let exportedConfigs = [];
 
 	try {
