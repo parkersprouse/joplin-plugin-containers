@@ -1,12 +1,12 @@
 {
 	"manifest_version": 1,
-	"id": "com.hieuthi.joplin.container-with-classes",
+	"id": "me.parkersprouse.joplin.containers",
 	"app_min_version": "2.2",
 	"version": "1.0.0",
-	"name": "Container with Classes",
+	"name": "Containers",
 	"description": "Plugin for creating block-level containers with classes for customization",
-	"author": "Hieu-Thi Luong",
-	"homepage_url": "https://github.com/hieuthi/joplin-plugin-container-with-classes",
-	"repository_url": "https://github.com/hieuthi/joplin-plugin-container-with-classes",
-	"keywords": ["joplin-plugin", "markdown-it", "container", "div", "css"]
+	"author": "Parker Sprouse",
+	"homepage_url": "https://github.com/parkersprouse/joplin-plugin-containers",
+	"repository_url": "https://github.com/parkersprouse/joplin-plugin-containers",
+	"keywords": ["joplin-plugin", "markdown-it", "container", "containers", "div", "css"]
 }
